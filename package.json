@@ -1,0 +1,32 @@
+{
+  "name": "gatsby-source-10to8",
+  "version": "1.0.0",
+  "description": "A source plugin that retrieves data from 10to8.com",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "echo \"No build script setup\""
+  },
+  "keywords": [
+    "gatsby",
+    "gatsby-plugin",
+    "gatsby-source",
+    "10to8",
+    "appointment",
+    "scheduling"
+  ],
+  "author": "Sebastiaan Mindreau <sebastiaan.mindreau@gmail.com>",
+  "license": "MIT",
+  "devDependencies": {},
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/SabbeRubbish/gatsby-source-10to8.git"
+  },
+  "bugs": {
+    "url": "https://github.com/SabbeRubbish/gatsby-source-10to8/issues"
+  },
+  "homepage": "https://github.com/SabbeRubbish/gatsby-source-10to8#readme",
+  "dependencies": {
+    "gatsby": "^4.2.0"
+  }
+}

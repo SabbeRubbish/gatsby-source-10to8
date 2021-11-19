@@ -15,10 +15,10 @@ npm install gatsby-source-10to8
 
 ## Usage
 
-1. You'll have to enter your API key in the configuration of the plugin. I advise to use environment variable files `.env.development` and `env.production` for this:
+1. You'll have to enter your API key in the configuration of the plugin. I advise to use environment variable files `.env.development` and `.env.production` for this:
 
 ```text:title=process.env.*
-10TO8_API_KEY=<api_key>
+API_KEY_10TO8=<api_key>
 ```
 
 and in your gatsby-config.js:
@@ -29,7 +29,7 @@ module.exports = {
     {
       resolve: `gatsby-source-10to8`,
       options: {
-        apiKey: process.env.10TO8_API_KEY
+        apiKey: process.env.API_KEY_10TO8
       },
     },
   ],
@@ -41,11 +41,13 @@ Make sure that your `.env.*` files are listed in `.gitignore` so you're not shar
 2. Next, you can just access the different nodes via GraphQL:
 
 ```javascript
-TODO {
+A10to8Service {
 }
 ```
 
 All fields that are returned from the 10to8 API are available.
+Note that 10to8Service was not an accepted name as a type, hence the "A" in front of it:
+> Names must match /^[_a-zA-Z][_a-zA-Z0-9]*$/ but "10To8Service" does not.
 
 ## Supported entity types
 
@@ -73,6 +75,8 @@ This means that you need to rebuild your (static) Gatsby site for each content u
 You were warned.
 
 ## Version history
+
+TODO
 
 | Version | Date       | Notes                                                                                                    |
 | ------- | ---------- | -------------------------------------------------------------------------------------------------------- |

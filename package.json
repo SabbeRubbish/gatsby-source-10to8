@@ -27,6 +27,8 @@
   },
   "homepage": "https://github.com/SabbeRubbish/gatsby-source-10to8#readme",
   "dependencies": {
-    "gatsby": "^4.2.0"
+    "axios": "^0.24.0",
+    "gatsby": "^4.2.0",
+    "gatsby-cli": "^4.2.0"
   }
 }

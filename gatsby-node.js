@@ -13,8 +13,8 @@ exports.sourceNodes = async (
   const { createNode, createTypes } = actions;
 
   var apiKey = pluginOptions.apiKey;
-  
-  var objectsToFetch = {service: "Service", location: "Location"};
+
+  var objectsToFetch = { service: "Service", location: "Location", staff: "Staff" };
 
   // Build the simultaneuous requests
   var arrayOfRequests = Reflect.ownKeys(objectsToFetch).map((dataUrl) => {
@@ -32,14 +32,14 @@ exports.sourceNodes = async (
   results.forEach((response, index) => {
     var dataUrl = Reflect.ownKeys(objectsToFetch)[index];
     var items;
-    if(response.data.results)
+    if (response.data.results)
       items = response.data.results;
     else
       items = response.data;
     console.info(`Creating ${items.length} A10to8 item type "${dataUrl}"`);
     Array.from(items).forEach((objectData) => {
       fillInId(objectData);
-      var node = createNode({
+      var nodeCreationOptions = {
         ...objectData,
         parent: null,
         children: [],
@@ -48,7 +48,9 @@ exports.sourceNodes = async (
           content: "",
           contentDigest: createContentDigest(objectData),
         },
-      });
+      };
+      //console.log(nodeCreationOptions);
+      var node = createNode(nodeCreationOptions);
     });
     // If no items, do create the type! (else our relationships will go haywire)
     if (items.length == 0) {
@@ -77,20 +79,53 @@ function fillInId(object) {
 /// through more verbose buildObjectType syntax. The latter is used if an entity has an array of items that need referencing.
 ///
 exports.createSchemaCustomization = ({ actions, schema }) => {
+  console.log("TEST");
   const { createTypes } = actions;
+  const typeDefs =
     schema.buildObjectType({
       name: "A10to8Service",
       fields: {
-        locations: {
+        locationList: {
           type: "[A10to8Location]",
           resolve: (source, args, context, info) => {
-            return context.nodeModel
-              .getAllNodes({ type: "A10to8Location" })
-              .filter((location) =>
-                source.locations.map((i) => i.toString()).includes(location.id)
-              );
+            var array = [];
+            source.locations.forEach((loc) => {
+              var split_array = loc.split("/");
+              var locationId = split_array[split_array.length - 2];
+              var lookupLocation = context.nodeModel.getNodeById({
+                id: locationId
+              });
+              array.push(lookupLocation);
+            });
+            return array;
+          },
+        },
+        staffList: {
+          type: "[A10to8Staff]",
+          resolve: (source, args, context, info) => {
+            var array = [];
+            source.staff.forEach((staff) => {
+              var split_array = staff.split("/");
+              var staffId = split_array[split_array.length - 2];
+              var lookupStaff = context.nodeModel.getNodeById({
+                id: staffId
+              });
+              array.push(lookupStaff);
+            });
+            return array;
           },
         }
-      }
-    });
+      },
+      interfaces: ["Node"],
+    },
+    {
+      name: "A10to8Location",
+      interfaces: ["Node"],
+    },
+    {
+      name: "A10to8Staff",
+      interfaces: ["Node"],
+    }
+  );
+  createTypes(typeDefs);
 };

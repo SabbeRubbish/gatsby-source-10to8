@@ -41,8 +41,25 @@ Make sure that your `.env.*` files are listed in `.gitignore` so you're not shar
 2. Next, you can just access the different nodes via GraphQL:
 
 ```javascript
-A10to8Service {
-}
+allA10To8Service {
+  edges {
+    node {
+      id
+      name
+      description
+      cancellation_policy
+      length
+      public
+      requires_organisation_confirmation
+      locationList {
+        name
+        post_code
+      }
+      staffList {
+        name
+      }
+    }
+  }
 ```
 
 All fields that are returned from the 10to8 API are available.
@@ -55,15 +72,14 @@ Currently, the following entity types are available:
 
 - services
 - locations
+- staff
 
 Some items are not available through the API.
 See the API documentation at https://10to8.com/api.
 
 ## Dependencies
 
-- TODO
-
-## Authentication (internals)
+- axios for parallel querying (faster)
 
 ## Updates / Subscription / Webhooks
 
@@ -80,8 +96,7 @@ TODO
 
 | Version | Date       | Notes                                                                                                    |
 | ------- | ---------- | -------------------------------------------------------------------------------------------------------- |
-| 1.1.0   | 2021-03-11 | Includes links in GraphQL schema - <br/>**Breaking change**: entities are now singular instead of plural |
-| 1.0.2   | 2021-03-09 | Basic working module                                                                                     |
+| 1.0.0   | 2021-11-19 | Basic working module                                                                                     |
 
 ## License
 

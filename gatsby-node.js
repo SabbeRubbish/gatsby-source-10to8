@@ -79,7 +79,6 @@ function fillInId(object) {
 /// through more verbose buildObjectType syntax. The latter is used if an entity has an array of items that need referencing.
 ///
 exports.createSchemaCustomization = ({ actions, schema }) => {
-  console.log("TEST");
   const { createTypes } = actions;
   const typeDefs =
     schema.buildObjectType({
